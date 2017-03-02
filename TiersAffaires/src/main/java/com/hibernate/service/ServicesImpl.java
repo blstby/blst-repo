@@ -16,15 +16,18 @@ import com.hibernate.model.Tiers;
 @WebService(endpointInterface = "com.hibernate.service.Services")
 public class ServicesImpl implements Services {
 
-	public ResultMsg createTiers(Tiers tier) throws HibernateException {
+	public ResultMsg createTiers(String tier, String nom) throws HibernateException {
 		ResultMsg ret = new ResultMsg();
+		Tiers tiers = new Tiers();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			session.beginTransaction();
-			session.save(tier);
+			tiers.setNom(nom);
+			tiers.setTier(tier);
+			session.save(tiers);
 			session.getTransaction().commit();
 			session.close();
-			ret.setId(tier.getId());
+			ret.setId(tiers.getId());
 			ret.setResult("Tier insere avec succes");
 			ret.setMessage("Description goes here !");
 		} catch (HibernateException e) {
@@ -36,11 +39,17 @@ public class ServicesImpl implements Services {
 		return ret;
 	}
 
-	public ResultMsg createAffaire(Affaire affaire) throws HibernateException {
+	public ResultMsg createAffaire(int idTier, String codeProd, float montant) throws HibernateException {
 		ResultMsg ret = new ResultMsg();
+		Affaire affaire = new Affaire();
+		Tiers tiers = new Tiers();
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			session.beginTransaction();
+			tiers.setId(idTier);
+			affaire.setCode_produit(codeProd);
+			affaire.setMontant_fin(montant);
+			affaire.setTier(tiers);
 			session.save(affaire);
 			session.getTransaction().commit();
 			session.close();
@@ -58,11 +67,11 @@ public class ServicesImpl implements Services {
 
 	
 	@SuppressWarnings("unchecked")
-	public List<Affaire> findByTiers(Tiers tier) throws HibernateException {
+	public List<Affaire> findByTiers(int id) throws HibernateException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			session.beginTransaction();
-			Query query = session.createQuery("from Affaire where tier.id =" + tier.getId());
+			Query query = session.createQuery("from Affaire where tier.id =" + id);
 			List<Affaire> res = (List<Affaire>) query.list();
 			return res;
 		} catch (HibernateException e) {
