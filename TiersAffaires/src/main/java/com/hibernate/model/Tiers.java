@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -13,8 +14,9 @@ import javax.persistence.Table;
 public class Tiers {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "tiers_id_Sequence")
+	@SequenceGenerator(name = "tiers_id_Sequence", sequenceName = "ID_TIERS_SEQ")
 	private Integer id;
 
 	@Column(name = "TIER", unique = true, nullable = false)
