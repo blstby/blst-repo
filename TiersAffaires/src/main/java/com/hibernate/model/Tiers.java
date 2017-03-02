@@ -16,7 +16,7 @@ public class Tiers {
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "tiers_id_Sequence")
-	@SequenceGenerator(name = "tiers_id_Sequence", sequenceName = "ID_TIERS_SEQ")
+	@SequenceGenerator(name = "tiers_id_Sequence", sequenceName = "ID_TIERS_SEQ",initialValue = 0)
 	private Integer id;
 
 	@Column(name = "TIER", unique = true, nullable = false)

@@ -9,7 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+@XmlRootElement
 @Entity
 @Table(name="AFFAIRE")
 public class Affaire {
@@ -17,7 +21,7 @@ public class Affaire {
 	@Id 
 	@Column(name = "ID")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "affaire_id_Sequence")
-	@SequenceGenerator(name = "affaire_id_Sequence", sequenceName = "ID_AFFAIRE_SEQ")
+	@SequenceGenerator(name = "affaire_id_Sequence", sequenceName = "ID_AFFAIRE_SEQ", initialValue = 0)
 	private Integer id;	
 
 	@Column(name="CODE_PRODUIT", nullable = false)
@@ -54,10 +58,16 @@ public class Affaire {
 		this.montant_fin = montant_fin;
 	}
 	
+	@XmlTransient
 	public Tiers getTier() {
 		return tier;
 	}
 
+	@XmlElement(name = "id_tier")
+	private int getTiersId(){
+		return this.tier.getId();
+	}
+	
 	public void setTier(Tiers tier) {
 		this.tier = tier;
 	}
