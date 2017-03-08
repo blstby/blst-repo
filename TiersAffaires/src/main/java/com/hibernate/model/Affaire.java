@@ -21,7 +21,7 @@ public class Affaire {
 	@Id 
 	@Column(name = "ID")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "affaire_id_Sequence")
-	@SequenceGenerator(name = "affaire_id_Sequence", sequenceName = "ID_AFFAIRE_SEQ", initialValue = 0)
+	@SequenceGenerator(name = "affaire_id_Sequence", sequenceName = "ID_AFFAIRE_SEQ", initialValue = 1)
 	private Integer id;	
 
 	@Column(name="CODE_PRODUIT", nullable = false)
