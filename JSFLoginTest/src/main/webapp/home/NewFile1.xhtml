@@ -1,0 +1,16 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<h:form id="forms1">
+		<h:panelGrid columns="4" cellpadding="5">
+			<h:outputLabel value="Name:" style="font-weight:bold" />
+			<p:inputText id="name" value="#{loginView.text}" required="true" />
+			<p:commandButton value="Submit" update="display" icon="ui-icon-check" />
+			<h:outputText id="display" value="#{loginView.text}" />
+		</h:panelGrid>
+	</h:form>
+	<p:button value="Navigate" outcome = "/home/NewFile2" />
+</ui:composition>
