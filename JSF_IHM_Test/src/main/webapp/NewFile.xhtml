@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Hello World</title>
+</h:head>
+<body>
+	<h:form id="growlForm">
+		<p:growl id="growl" showDetail="true" autoUpdate="true" />
+	</h:form>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		<p:commandButton value="Yes" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+	<p:layout style="min-width:400px;min-height:800px;">
+		<p:layoutUnit position="north" resizable="false"
+			style="min-height:5.5%;padding:0% 0%">
+			<p:layout>
+				<p:layoutUnit position="center" resizable="false"
+					style="border:none">
+	       		Title
+		        	<p:button value="Language" icon="fa fa-language"
+						style="float:right;font-size: 15px;max-height:100%;" />
+					<p:commandButton value="Logout" icon="fa fa-arrow-circle-left"
+						style="float:right;font-size: 15px;max-height:100%;"
+						actionListener="#{test.logout()}">
+						<p:confirm header="Confirmation" message="Are you sure?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<h:panelGrid style="float:right">
+						<p:outputLabel value="Current user" style="font-size: 15px;" />
+					</h:panelGrid>
+				</p:layoutUnit>
+			</p:layout>
+		</p:layoutUnit>
+		<p:layoutUnit position="west" resizable="false" size="210">
+			<h:form id="menu_form">
+				<p:panelMenu style="width:200px">
+					<p:submenu label="Ajax Menuitems" style="font-size: 15px">
+						<p:menuitem value="Save" action="#{test.save}"
+							icon="ui-icon-disk" />
+						<p:menuitem value="Update" action="#{test.update}"
+							icon="ui-icon-arrowrefresh-1-w" />
+					</p:submenu>
+					<p:submenu label="Non-Ajax Menuitem" style="font-size: 15px">
+						<p:menuitem value="Delete" action="#{test.delete}"
+							ajax="false" icon="ui-icon-close" />
+					</p:submenu>
+					<p:separator />
+					<p:submenu label="Menu" style="font-size: 15px">
+						<p:menuitem value="submenu 1" action="#{test.addTab(0)}"
+							update="tabss" />
+						<p:menuitem value="submenu 2" action="#{test.addTab(1)}"
+							update="tabss" />
+						<p:menuitem value="submenu 3" action="#{test.addTab(2)}" />
+						<p:menuitem value="submenu 4" />
+					</p:submenu>
+					<p:submenu label="Menu 2" style="font-size: 15px">
+						<p:menuitem value="submenu 1" />
+						<p:menuitem value="submenu 2" />
+						<p:menuitem value="submenu 3" />
+						<p:menuitem value="submenu 4" />
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<p:tabView id="tabss" style="font-size: 15px"
+				binding="#{test.tabWindow}">
+				<p:ajax event="tabClose" listener="#{test.onTabClose}"
+					update="tabss" />
+				<p:ajax event="tabChange" listener="#{test.onTabChange}" />
+				<p:tab title="Title1" closable="true" style="font-size: 15px"
+					rendered="#{test.getByIndex(0).open}">
+
+					<ui:include src="#{test.getByIndex(0).content}" />
+				</p:tab>
+				<p:tab title="Title2" closable="true" style="font-size: 15px"
+					rendered="#{test.getByIndex(1).open}">
+
+					<ui:include src="#{test.getByIndex(1).content}" />
+				</p:tab>
+
+			</p:tabView>
+		</p:layoutUnit>
+	</p:layout>
+
+</body>
+</html>
