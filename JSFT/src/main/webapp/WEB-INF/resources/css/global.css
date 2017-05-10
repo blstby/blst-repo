@@ -1,0 +1,43 @@
+body {
+	overflow : hidden;
+}
+
+#global-layout{
+	width : 100vw;
+	height : 100vh;
+}
+
+#center-layout{
+	width:80vw;
+	height:86vh;
+}
+
+#west-layout{
+	width:16vw !important;
+	height:100vh !important;
+}
+
+#menuScroll{
+	width:16vw;
+	height:100vh;
+	border:none;
+}
+
+#tabss{
+	font-size: 15px;
+	border: none;
+}
+
+.font-g{
+	font-size: 15px;
+}
+
+.ui-layout-container.overflowless .ui-layout-unit .ui-layout-unit-content{
+	overflow:hidden;
+}
+
+.scrollPanels{
+	width:80vw;
+	height:86vh;
+	border:none;
+}

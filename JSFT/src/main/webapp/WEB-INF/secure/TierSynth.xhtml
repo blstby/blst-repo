@@ -1,0 +1,185 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core">
+
+	<h:form id="formSynthese">
+
+		<p:panel header="Renseignements Client" toggleable="true"
+			toggleSpeed="500">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nom complet :" />
+				<h:outputLabel
+					value="#{tierSynthView.openedTiersInfo.get(param).tiers.codeQualite}#{' '}#{tierSynthView.openedTiersInfo.get(param).tiers.nom}#{' '}#{tierSynthView.openedTiersInfo.get(param).tiers.prenom}" />
+				<h:outputLabel value="Date de naissance :" />
+				<h:outputLabel
+					value="#{tierSynthView.getDateFromJulian(tierSynthView.openedTiersInfo.get(param).tiers.dateNaissance)}" />
+				<h:outputLabel value="Nationalité :" />
+				<h:outputLabel
+					value="#{tierSynthView.getCodiff(tierSynthView.openedTiersInfo.get(param).tiers.codeNationalite,'PAYS')}" />
+				<h:outputLabel value="Situation familiale :" />
+				<h:outputLabel
+					value="#{tierSynthView.openedTiersInfo.get(param).tiers.codeRegMatri}" />
+				<h:outputLabel value="Adresse :" />
+				<h:outputLabel
+					value="#{tierSynthView.openedTiersInfo.get(param).adresse}" />
+				<h:outputLabel value="Profession :" />
+				<h:outputLabel
+					value="#{tierSynthView.getCodiff(tierSynthView.openedTiersInfo.get(param).tiers.codeProfession,'CPRO')}" />
+				<h:outputLabel value="Secteur d'activité :" />
+				<h:outputLabel
+					value="#{tierSynthView.getCodiff(tierSynthView.openedTiersInfo.get(param).tiers.codeActivite,'SECT')}" />
+
+			</h:panelGrid>
+			<f:facet name="actions">
+				<p:commandLink
+					styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+					action="#{tierSynthView.test()}" update="tabss">
+					<h:outputText styleClass="ui-icon fa fa-search-plus" />
+				</p:commandLink>
+			</f:facet>
+		</p:panel>
+
+		<c:if
+			test="#{tierSynthView.openedTiersInfo.get(param).tieidens.size() > 0}">
+			<p:panel header="Piece" toggleable="true" toggleSpeed="500">
+				<h:panelGrid columns="2">
+					<c:forEach
+						items="#{tierSynthView.openedTiersInfo.get(param).tieidens}"
+						var="tieiden">
+						<h:outputLabel
+							value="#{tierSynthView.getLibId(tieiden.codePieceIden)}#{' :'}" />
+						<h:outputLabel value="#{tieiden.noPieceIden}" />
+					</c:forEach>
+				</h:panelGrid>
+				<f:facet name="actions">
+					<p:commandLink
+						styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+						action="#{tierSynthView.test()}" update="tabss">
+						<h:outputText styleClass="ui-icon fa fa-search-plus" />
+					</p:commandLink>
+				</f:facet>
+			</p:panel>
+		</c:if>
+
+		<c:if
+			test="#{tierSynthView.openedTiersInfo.get(param).refcomms.size() > 0}">
+			<p:panel header="Contact" toggleable="true" toggleSpeed="500">
+				<h:panelGrid columns="2">
+					<c:forEach
+						items="#{tierSynthView.openedTiersInfo.get(param).refcomms}"
+						var="refcomm">
+						<h:outputLabel
+							value="#{tierSynthView.getCodiff(refcomm.id.codeReference,'CREF')}#{' :'}" />
+						<h:outputLabel value="#{refcomm.telephone}" />
+					</c:forEach>
+				</h:panelGrid>
+			</p:panel>
+		</c:if>
+
+		<c:if
+			test="#{tierSynthView.openedTiersInfo.get(param).empltiers != null}">
+			<p:panel header="Renseignements Employeur" toggleable="true"
+				toggleSpeed="500">
+				<h:panelGrid columns="2">
+					<c:if
+						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.id.raisonSociale != null}">
+						<h:outputLabel value="Raison sociale :" />
+						<h:outputLabel
+							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.id.raisonSociale}" />
+					</c:if>
+					<c:if
+						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse1 != null}">
+						<h:outputLabel value="Adresse :" />
+						<h:outputLabel
+							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse1}" />
+					</c:if>
+					<c:if
+						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse2 != null}">
+						<h:outputLabel value=" " />
+						<h:outputLabel
+							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse2}" />
+					</c:if>
+					<c:if
+						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.codePostal != null}">
+						<h:outputLabel value="Code postal :" />
+						<h:outputLabel
+							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.codePostal}" />
+					</c:if>
+					<c:if
+						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.ville != null}">
+						<h:outputLabel value="Ville :" />
+						<h:outputLabel
+							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.ville}" />
+					</c:if>
+					<c:if
+						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.telephone != null}">
+						<h:outputLabel value="Télephone :" />
+						<h:outputLabel
+							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.telephone}" />
+					</c:if>
+				</h:panelGrid>
+			</p:panel>
+		</c:if>
+
+		<c:if test="#{tierSynthView.openedTiersInfo.get(param).rib != null}">
+			<p:panel header="Domiciliation principale" toggleable="true"
+				toggleSpeed="500">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Banque :" />
+					<h:outputLabel
+						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[0]}" />
+					<h:outputLabel value="Agence :" />
+					<h:outputLabel
+						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[1]}" />
+					<h:outputLabel value="Compte :" />
+					<h:outputLabel
+						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[2]}" />
+					<h:outputLabel value="Clé :" />
+					<h:outputLabel
+						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[3]}" />
+				</h:panelGrid>
+			</p:panel>
+		</c:if>
+
+		<p:panel header="Synthèse des affaires" toggleable="true"
+			toggleSpeed="500">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nombre total des affaires :" />
+				<h:outputLabel
+					value="#{tierSynthView.nbAffaire(tierSynthView.openedTiersInfo.get(param).tiers.tiers)}" />
+				<h:outputLabel value="Total encours des affaires :" />
+				<h:outputLabel
+					value="#{tierSynthView.openedTiersInfo.get(param).situation[0]}" />
+				<h:outputLabel value="Nombre d'affaire en cours :" />
+				<h:outputLabel
+					value="#{tierSynthView.openedTiersInfo.get(param).situation[1]}" />
+				<h:outputLabel value="Total solde des affaires :" />
+				<h:outputLabel
+					value="#{tierSynthView.openedTiersInfo.get(param).situation[2]}" />
+				<h:outputLabel value="Autres affaire :" />
+				<h:outputLabel
+					value="#{tierSynthView.openedTiersInfo.get(param).situation[3]}" />
+			</h:panelGrid>
+			<c:if
+				test="#{tierSynthView.nbAffaire(tierSynthView.openedTiersInfo.get(param).tiers.tiers) > 0}">
+				<f:facet name="actions">
+					<p:commandLink id="expl"
+						styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+						action="#{tierSynthView.afficherAff(tierSynthView.openedTiersInfo.get(param).tiers.tiers)}"
+						update="tabss" title="Afficher Affaires">
+						<h:outputText styleClass="ui-icon fa fa-search-plus" />
+					</p:commandLink>
+
+					<p:blockUI block="tabss" trigger="expl">
+        Chargement des affaires en cours<br />
+						<p:graphicImage name="images/ajax-loader.gif" />
+					</p:blockUI>
+
+				</f:facet>
+			</c:if>
+		</p:panel>
+
+	</h:form>
+</ui:composition>

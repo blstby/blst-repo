@@ -1,0 +1,66 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="formMenu1">
+		<p:panelGrid columns="4">
+			<h:outputText value="Profile :" />
+			<p:selectOneMenu value="#{gestionMenuView.selectedProfile}"
+				converter="omnifaces.SelectItemsConverter">
+				<f:selectItems value="#{gestionMenuView.profiles}" var="prof"
+					itemLabel="#{prof.nom}" itemValue="#{prof}" />
+			</p:selectOneMenu>
+			<p:commandButton value="Choisir"
+				action="#{gestionMenuView.loadMenus()}"
+				update="tabss:subview_gestionMenuView:formMenu2:menuT" />
+			<p:commandButton value="Actualiser"
+				action="#{gestionMenuView.init()}"
+				update="tabss:subview_gestionMenuView:formMenu2 tabss:subview_gestionMenuView:formMenu1" />
+		</p:panelGrid>
+	</h:form>
+	<br/>
+	<h:form id="formMenu2">
+		<p:dataTable id="menuT" value="#{gestionMenuView.menus}" var="menu"
+			paginator="true" rows="13">
+
+			<f:facet name="header">
+				<p:commandButton value="Enregistrer" update="tabss:subview_gestionMenuView:formMenu2:menuT"
+					action="#{gestionMenuView.save()}" />
+
+				<p:commandButton value="Ajouter" update="tabss:subview_gestionMenuView:formMenu2:menuT"
+					action="#{gestionMenuView.ajouter()}" />
+			</f:facet>
+
+			<p:column id="par" headerText="Parent">
+				<p:selectOneMenu value="#{menu.parent}"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItem itemLabel="-----" itemValue="#{null}" />
+					<f:selectItems value="#{gestionMenuView.parents}" var="par"
+						itemLabel="#{par.nomMenu}" itemValue="#{par}" />
+				</p:selectOneMenu>
+			</p:column>
+
+			<p:column headerText="Module">
+				<p:selectOneMenu value="#{menu.module}"
+					converter="omnifaces.SelectItemsConverter">
+					<p:ajax listener="#{gestionMenuView.updateParents()}"
+						update="tabss:subview_gestionMenuView:formMenu2:menuT" />
+					<f:selectItems value="#{gestionMenuView.modules}" var="modu"
+						itemLabel="#{modu.nomMenu}" itemValue="#{modu}" />
+				</p:selectOneMenu>
+			</p:column>
+
+			<p:column headerText="Ordre">
+				<p:spinner id="basic" value="#{menu.nOrdre}" />
+
+			</p:column>
+
+			<p:column headerText="Exploitable">
+				<p:selectBooleanCheckbox value="#{menu.exploitable}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+</ui:composition>

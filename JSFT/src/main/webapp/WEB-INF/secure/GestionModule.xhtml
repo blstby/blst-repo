@@ -1,0 +1,48 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="formMod">
+
+		<p:dataTable id="moduleT" value="#{gestionModuleView.modules}"
+			var="module" paginator="true" rows="15">
+			<f:facet name="header">
+				<p:commandButton value="Enregistrer" update="tabss:subview_gestionModuleView:formMod:moduleT"
+					action="#{gestionModuleView.save()}" />
+
+				<p:commandButton value="Ajouter" update="tabss:subview_gestionModuleView:formMod:moduleT"
+					action="#{gestionModuleView.ajouter()}" />
+				<p:commandButton value="Actualiser" update="tabss:subview_gestionModuleView:formMod:moduleT"
+					action="#{gestionModuleView.init()}" />
+			</f:facet>
+
+			<p:column headerText="Nom du menu">
+				<div align="center">
+					<p:inputText value="#{module.nomMenu}" required="true" />
+				</div>
+			</p:column>
+
+			<p:column headerText="Titre de l'onglet">
+				<div align="center">
+					<p:inputText value="#{module.nomTab}" />
+				</div>
+			</p:column>
+
+			<p:column headerText="Nom de la page du contenu">
+				<div align="center">
+					<p:inputText value="#{module.contenu}" />
+				</div>
+			</p:column>
+
+			<p:column headerText="Exploitable">
+				<div align="center">
+					<p:selectBooleanCheckbox value="#{module.exploitable}" />
+				</div>
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
+
+
+</ui:composition>

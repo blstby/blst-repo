@@ -1,53 +1,67 @@
 package com.sofac.controllers;
 
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
-import com.sofac.services.LoginService;
+import com.sofac.model.Utilisateur;
+import com.sofac.services.TieidenService;
+import com.sofac.services.TiersService;
+import com.sofac.services.UtilisateurService;
+import com.sofac.util.Codiff;
 
 @ManagedBean
 @SessionScoped
 public class LoginView {
 
-	private String text;
-	private String login = new String();
-	private String pwd = new String();
-	private LoginService loginService = new LoginService();
+	private Utilisateur utilisateur;
+	private UtilisateurService utilisateurService;
+	private TieidenService tieidenService;
+	private TiersService tiersService;
+	private List<Codiff> codiffs;
+
+	@PostConstruct
+	public void init() {
+		utilisateurService = new UtilisateurService();
+		utilisateur = new Utilisateur();
+		tieidenService = new TieidenService();
+		tiersService = new TiersService();
+	}
+	
+	public void loadPiece(){
+		setCodiffs(tieidenService.getPiece());
+		codiffs.addAll(tiersService.getCodiff("PAYS"));
+		codiffs.addAll(tiersService.getCodiff("SECT"));
+		codiffs.addAll(tiersService.getCodiff("CPRO"));
+		codiffs.addAll(tiersService.getCodiff("CREF"));
+	}
 
 	public String connect() {
-		String ret = loginService.connect(login, pwd);
-		if (ret == null) {
-			login = "";
-			pwd = "";
-		}
-		return ret;
+		utilisateur = utilisateurService.connect(utilisateur);
+		return utilisateurService.check(utilisateur);
 	}
 
 	public String logOut() {
-		return loginService.logOut();
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "/login?faces-redirect=true";
 	}
 
-	public String getText() {
-		return text;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
-	public String getLogin() {
-		return login;
+	public List<Codiff> getCodiffs() {
+		return codiffs;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setCodiffs(List<Codiff> codiffs) {
+		this.codiffs = codiffs;
 	}
 }

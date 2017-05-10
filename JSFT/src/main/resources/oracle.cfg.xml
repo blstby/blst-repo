@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+		<property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+		<property name="hibernate.connection.password">SC_INTERFACE</property>
+		<property name="hibernate.connection.username">SC_INTERFACE</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@172.20.50.196:1522:SFC7TEST</property>
+		<property name="hibernate.search.autoregister_listeners">true</property>
+		<property name="hibernate.validator.apply_to_ddl">false</property>
+		<property name="hbm2ddl.auto">validate</property>
+		<property name="show_sql">true</property>
+		<property name="format_sql">false</property>
+		<mapping class="com.sofac.models.Refcomm" />
+		<mapping class="com.sofac.models.Tiers" />
+		<mapping class="com.sofac.models.Afftiers" />
+		<mapping class="com.sofac.models.Affaire" />
+		<mapping class="com.sofac.models.Empltiers" />
+		<mapping class="com.sofac.models.Tieiden" />
+	</session-factory>
+</hibernate-configuration>

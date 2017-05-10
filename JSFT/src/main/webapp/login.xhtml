@@ -7,18 +7,25 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Login</title>
+	<h:outputStylesheet name="css/login.css" />
 </h:head>
 <body>
-	<p:growl id="growl" showDetail="true" autoUpdate="true" />
-	<h:form id="form">
-		<h:panelGrid columns="4" cellpadding="5">
-			<h:outputLabel value="Login :" style="font-weight:bold" />
-			<p:inputText id="login" value="#{loginView.login}" required="true" />
-			<h:outputLabel value="Password :" style="font-weight:bold" />
-			<p:password id="password" value="#{loginView.pwd}" required="true" />
-			<p:commandButton value="Submit" action="#{loginView.connect()}"
-				icon="ui-icon-check" />
-		</h:panelGrid>
-	</h:form>
+	<div id="box">
+		<p:growl id="growl" showDetail="true" autoUpdate="true" />
+		<div id="loginbox">
+			<h:form id="form">
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:outputLabel value="Login :" style="font-weight:bold" />
+					<p:inputText id="login" value="#{loginView.utilisateur.login}"
+						required="true" requiredMessage="Veuiller saisir un login"/>
+					<h:outputLabel value="Password :" style="font-weight:bold" />
+					<p:password id="password" value="#{loginView.utilisateur.mdp}"
+						required="true" requiredMessage="Veuiller saisir votre mot de passe"/>
+					<p:commandButton value="Connexion" action="#{loginView.connect()}"
+						icon="ui-icon-check" style="font-size: 15px" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</div>
 </body>
 </html>

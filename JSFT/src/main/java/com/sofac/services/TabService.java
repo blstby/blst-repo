@@ -18,30 +18,23 @@ public class TabService {
 		return ret;
 	}
 
-	public List<Tab> createDummyTabs() {
-		List<Tab> ret = new ArrayList<Tab>();
-		ret.add(new Tab("Title 1", "/secure/include1.xhtml"));
-		ret.add(new Tab("Title 2", "/secure/include2.xhtml"));
-		ret.add(new Tab("Title 3", "/secure/include3.xhtml"));
-		return ret;
-	}
-
 	public List<Tab> addTab(List<Tab> from, List<Tab> to, String title) {
-		for (int i = 0; i < to.size(); i++) {
-			if (!to.get(i).isOpen()) {
-				for (int j = 0; j < from.size(); j++) {
-					if (from.get(j).getTitle().equals(title)) {
-						to.get(i).setTitle(from.get(j).getTitle());
-						to.get(i).setContent(from.get(j).getContent());
-						to.get(i).setOpen(true);
-						return to;
-					}
-				}
+		boolean test = false;
+		for (int i = 0; i < from.size(); i++) {
+			if (from.get(i).getTitle().equals(title)) {
+				Tab t = new Tab(from.get(i).getTitle(), from.get(i).getContent(), from.get(i).getController(),
+						from.get(i).getParam());
+				t.setOpen(true);
+				to.add(t);
+				return to;
 			}
 		}
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Open Tabs capcity exceeded",
-				"Close a tab before opening a new one");
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		test = true;
+		if (test) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Attention !",
+					"Ce n'est pas un module");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
 		return to;
 	}
 
@@ -57,7 +50,7 @@ public class TabService {
 	public int getIndex(List<Tab> list, String title) {
 		int ret = -1;
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getTitle().equals(title)) {
+			if (trim(list.get(i).getTitle()).equals(title)) {
 				ret = i;
 			}
 		}
@@ -65,13 +58,75 @@ public class TabService {
 	}
 
 	public List<Tab> closeTab(List<Tab> list, String title) {
+		String cont = "";
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getTitle().equals(title)) {
-				list.get(i).setContent("");
-				list.get(i).setTitle("");
-				list.get(i).setOpen(false);
+			if (trim(list.get(i).getTitle()).equals(title)) {
+				cont = list.get(i).getController();
+				list.remove(i);
 			}
 		}
+		if (testTab(list, title, "Antécédents", "-")) {
+			FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove("tierSynthView");
+		}else if(testTab(list, title, "-", "+")){
+			FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove("affSynthView");
+		}else if(testTab(list, title, "+", "_")){
+			FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove("affaireView");
+		}
+		FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove(cont);
 		return list;
+	}
+
+	private boolean testTab(List<Tab> list, String title, String aTester, String mark) {
+		boolean test = true;
+		boolean t = true;
+		if (title.startsWith(mark)) {
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).getTitle().startsWith(mark)) {
+					test = false;
+				}
+				if (list.get(i).getTitle().startsWith(aTester)) {
+					t = false;
+				}
+			}
+			if (test && t) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Tab getTab(List<Tab> list, String title) {
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getTitle().equals(title)) {
+				return list.get(i);
+			}
+		}
+		return null;
+	}
+
+	public int setIndex(int index) {
+		if (index > 0) {
+			int i = index - 1;
+			return i;
+		} else {
+			return 0;
+		}
+	}
+
+	public int setIndex(List<Tab> list, String title) {
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getTitle().equals(title)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public String trim(String str) {
+		if (str.length() > 19) {
+			str = str.substring(0, 16);
+			str += "...";
+		}
+		return str;
 	}
 }

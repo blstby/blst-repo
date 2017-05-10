@@ -5,12 +5,24 @@ public class Tab {
 	private int index;
 	private String title;
 	private String content;
+	private String controller;
+	private int param;
 	private boolean open;
 
-	public Tab(String title, String content) {
+	public Tab(String title, String content, String controller, int param) {
 		super();
 		this.title = title;
 		this.content = content;
+		this.controller = controller;
+		this.param = param;
+		this.open = true;
+	}
+
+	public Tab(String title, String content, String controller) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.controller = controller;
 		this.open = true;
 	}
 
@@ -52,6 +64,22 @@ public class Tab {
 
 	public void setIndex(int index) {
 		this.index = index;
+	}
+
+	public String getController() {
+		return controller;
+	}
+
+	public void setController(String controller) {
+		this.controller = controller;
+	}
+
+	public int getParam() {
+		return param;
+	}
+
+	public void setParam(int param) {
+		this.param = param;
 	}
 
 }

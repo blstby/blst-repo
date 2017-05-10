@@ -1,0 +1,60 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+		<h:form id="formSynthese">
+
+		<p:panel header="Renseignement Client" toggleable="true"
+			toggleSpeed="500">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nom :" />
+				<h:outputLabel value="#{includeView.openedTiers.get(param).nom}" />
+				<h:outputLabel value="Date de naissance :" />
+				<h:outputLabel value="#{includeView.openedTiers.get(param).dateN}" />
+			</h:panelGrid>
+			<f:facet name="actions">
+				<p:commandLink
+					styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+					action="#{includeView.test()}" update="tabss">
+					<h:outputText styleClass="ui-icon fa fa-search-plus" />
+				</p:commandLink>
+			</f:facet>
+		</p:panel>
+
+		<p:panel header="Piece" toggleable="true" toggleSpeed="500">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="CIN :" />
+				<h:outputLabel value="#{includeView.openedTiers.get(param).cin}" />
+				<h:outputLabel value="RC :" />
+				<h:outputLabel value="#{includeView.openedTiers.get(param).rc}" />
+			</h:panelGrid>
+			<f:facet name="actions">
+				<p:commandLink
+					styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+					action="#{includeView.test()}" update="tabss">
+					<h:outputText styleClass="ui-icon fa fa-search-plus" />
+				</p:commandLink>
+			</f:facet>
+		</p:panel>
+
+		<p:panel header="Résumé affaires" toggleable="true" toggleSpeed="500">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nombre d'antécédents :" />
+				<h:outputLabel value="" />
+				<h:outputLabel value="Balance :" />
+				<h:outputLabel value="" />
+				<h:outputLabel value="Solde impayé :" />
+				<h:outputLabel value="" />
+			</h:panelGrid>
+			<f:facet name="actions">
+				<p:commandLink
+					styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+					action="#{includeView.test()}" update="tabss">
+					<h:outputText styleClass="ui-icon fa fa-search-plus" />
+				</p:commandLink>
+			</f:facet>
+		</p:panel>
+
+	</h:form>
+</ui:composition>

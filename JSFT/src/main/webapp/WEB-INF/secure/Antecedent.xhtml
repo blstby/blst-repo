@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="tierRecherche">
+		<h:panelGrid columns="11">
+			<h:outputLabel value="Code :" />
+			<p:inputText value="#{antecedentView.code}" style="width:10vw;" />
+
+			<h:outputLabel value="Nom :" />
+			<p:inputText value="#{antecedentView.nom}" style="width:15vw;" />
+
+			<h:outputLabel value="CIN :" />
+			<p:inputMask mask="a?a" value="#{antecedentView.cin}"
+				style="width:1.5vw;" />
+			<h:outputLabel value="-" />
+			<p:inputText style="width:10vw;" value="#{antecedentView.cinN}" />
+
+			<h:outputLabel value="RC :" />
+			<p:inputText value="#{antecedentView.rc}" style="width:10vw;" />
+
+			<p:commandButton id="rech" value="Rechercher"
+				action="#{antecedentView.recherche()}" icon="fa fa-search"
+				update="tabss:subview_antecedentView:formTier" />
+		</h:panelGrid>
+
+		<p:blockUI block="tabss"
+			trigger="tabss:subview_antecedentView:tierRecherche:rech">
+        Recherche en cours<br />
+			<p:graphicImage name="images/ajax-loader.gif" />
+		</p:blockUI>
+	</h:form>
+
+	<h:form id="formTier">
+		<p:dataTable id="tierT" value="#{antecedentView.tiersInfos}"
+			var="tier" paginator="true" rows="13">
+
+			<f:facet name="footer">
+				<p:commandButton value="Imprimer" update="tabss" icon="fa fa-print" />
+			</f:facet>
+
+			<p:column id="code" headerText="Code" style="text-align:center">
+				<h:outputText value="#{tier.tiers.tiers}" />
+			</p:column>
+
+			<p:column id="nom" headerText="Nom" style="text-align:center">
+				<h:outputText value="#{tier.tiers.nom}#{' '}#{tier.tiers.prenom}" />
+			</p:column>
+
+			<p:column id="rc" headerText="RC" style="text-align:center">
+				<h:outputText value="#{tier.tiers.noRc}" />
+			</p:column>
+
+			<p:column id="cin" headerText="CIN" style="text-align:center">
+				<h:outputText
+					value="#{antecedentView.getCIN(tier.tieidens).noPieceIden}" />
+			</p:column>
+
+			<p:column id="date" headerText="Date de naissance"
+				style="text-align:center">
+				<h:outputText
+					value="#{antecedentView.getDateFromJulian(tier.tiers.dateNaissance)}" />
+			</p:column>
+
+			<p:column style="text-align:center">
+				<p:commandButton id="aff" action="#{antecedentView.afficherTier()}"
+					icon="ui-icon-search" title="Afficher synthèse" update="tabss">
+					<f:setPropertyActionListener value="#{tier}"
+						target="#{antecedentView.selectedTiersInfo}" />
+				</p:commandButton>
+
+				<p:blockUI block="tabss"
+					trigger="aff">
+        Chargement du tier en cours<br />
+					<p:graphicImage name="images/ajax-loader.gif" />
+				</p:blockUI>
+			</p:column>
+
+		</p:dataTable>
+
+
+	</h:form>
+
+</ui:composition>

@@ -1,15 +1,17 @@
 package com.sofac.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.component.tabview.TabView;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import org.primefaces.model.menu.MenuModel;
 
@@ -23,38 +25,34 @@ public class HomeView {
 
 	private List<Tab> tabs;
 	private List<Tab> openTabs;
-	private TabView TabWindow;
-	private String text;
+	private int index;
 	private TabService tabService;
 	private MenuService menuService;
 	private MenuModel menu;
+	@ManagedProperty("#{loginView}")
+	private LoginView loginView;
+	private String t = "ma3";
 
 	@PostConstruct
 	public void init() {
-		TabWindow = new TabView();
 		tabService = new TabService();
 		menuService = new MenuService();
-		tabs = tabService.createDummyTabs();
-		openTabs = tabService.initializeTabs(2);
-		menu = menuService.createDummyMenu();
-	}
-
-	public void a(String a) {
-		setText(a);
+		tabs = menuService.loadTabs(loginView.getUtilisateur().getProfile());
+		openTabs = new ArrayList<Tab>();
+		menu = menuService.loadMenu(loginView.getUtilisateur().getProfile());
 	}
 
 	public void addTab(String title) {
 		if (tabService.check(openTabs, title)) {
 			openTabs = tabService.addTab(tabs, openTabs, title);
 		}
-		if (tabService.getIndex(openTabs, title) > -1) {
-			TabWindow.setActiveIndex(tabService.getIndex(openTabs, title));
+		if (tabService.getIndex(openTabs, tabService.trim(title)) != -1) {
+			index = tabService.getIndex(openTabs, tabService.trim(title));
 		}
 	}
 
 	public void showMessage() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Hello",
-				"I am a message in a dialog");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Hello", "I am a message in a dialog");
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 
@@ -76,23 +74,22 @@ public class HomeView {
 	}
 
 	public void onTabClose(TabCloseEvent event) {
-		openTabs = tabService.closeTab(openTabs, event.getTab().getTitle());
+		String title = event.getTab().getTitle();
+		String ti = openTabs.get(index).getTitle();
+		openTabs = tabService.closeTab(openTabs, title);
+		if (trim(ti).equals(title)) {
+			index = tabService.setIndex(index);
+		} else {
+			index = tabService.setIndex(openTabs, ti);
+		}
 	}
 
-	public TabView getTabWindow() {
-		return TabWindow;
+	public void onTabChange(TabChangeEvent event) {
+		index = tabService.getIndex(openTabs, event.getTab().getTitle());
 	}
-
-	public void setTabWindow(TabView tabWindow) {
-		TabWindow = tabWindow;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
+	
+	public String trim(String str){
+		return tabService.trim(str);
 	}
 
 	public List<Tab> getTabs() {
@@ -117,5 +114,29 @@ public class HomeView {
 
 	public void setOpenTabs(List<Tab> openTabs) {
 		this.openTabs = openTabs;
+	}
+
+	public LoginView getLoginView() {
+		return loginView;
+	}
+
+	public void setLoginView(LoginView loginView) {
+		this.loginView = loginView;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public String getT() {
+		return t;
+	}
+
+	public void setT(String t) {
+		this.t = t;
 	}
 }

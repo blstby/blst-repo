@@ -1,0 +1,35 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<h:form id="formProf">
+
+		<p:dataTable id="profileT" value="#{gestionProfileView.profiles}"
+			var="profile" paginator="true" rows="15">
+			<f:facet name="header">
+				<p:commandButton value="Enregistrer"
+					update="tabss:subview_gestionProfileView:formProf:profileT"
+					action="#{gestionProfileView.save()}" />
+
+				<p:commandButton value="Ajouter" update="tabss:subview_gestionProfileView:formProf:profileT"
+					action="#{gestionProfileView.ajouter()}" />
+				<p:commandButton value="Actualiser" update="tabss:subview_gestionProfileView:formProf:profileT"
+					action="#{gestionProfileView.init()}" />
+			</f:facet>
+
+			<p:column headerText="Nom">
+				<div align="center">
+					<p:inputText value="#{profile.nom}" required="true" />
+				</div>
+			</p:column>
+
+			<p:column headerText="Exploitable">
+				<div align="center">
+					<p:selectBooleanCheckbox value="#{profile.exploitable}" />
+				</div>
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
+
+</ui:composition>

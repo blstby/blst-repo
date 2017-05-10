@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core">
+<h:head>
+	<title>--Home--</title>
+	<h:outputStylesheet name="css/global.css" />
+</h:head>
+<body>
+	<p:growl id="growl" showDetail="true" autoUpdate="true" />
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+		style="font-size: 15px" widgetVar="conf">
+		<p:commandButton value="Oui" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="Non" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+	<p:layout id="global-layout" styleClass="overflowless">
+		<p:layoutUnit id="north-layout" position="north" resizable="false"
+			style="height:5%;width:100%">
+
+			<h:form style="float:right">
+				<p:commandButton value="Déconnecter" icon="fa fa-arrow-circle-left"
+					style="float:right;font-size: 15px;" action="#{loginView.logOut()}">
+					<p:confirm header="Déconnexion" message="Etes-vous sure?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:form>
+
+			<h:panelGrid style="float:right">
+				<p:outputLabel value="#{user}" style="font-size: 15px;" />
+			</h:panelGrid>
+
+		</p:layoutUnit>
+		<p:layoutUnit id="west-layout" position="west" resizable="false">
+			<p:scrollPanel id="menuScroll" mode="native">
+				<h:form id="menu_form">
+					<p:panelMenu model="#{homeView.menu}" />
+				</h:form>
+			</p:scrollPanel>
+		</p:layoutUnit>
+
+		<p:layoutUnit id="center-layout" position="center">
+
+			<p:tabView id="tabss" style="font-size: 15px"
+				activeIndex="#{homeView.index}" scrollable="true">
+				<p:ajax event="tabClose" listener="#{homeView.onTabClose}"
+					update="tabss" />
+				<p:ajax event="tabChange" listener="#{homeView.onTabChange}"
+					update="tabss" />
+
+				<c:forEach items="#{homeView.openTabs}" var="otab">
+					<p:tab title="#{homeView.trim(otab.title)}" closable="true"
+						rendered="#{otab.open}" titletip="#{otab.title}">
+						<p:scrollPanel mode="native" styleClass="scrollPanels">
+							<f:subview id="subview_#{otab.controller}">
+								<ui:include src="#{otab.content}">
+									<c:if test="#{otab.param >= 0}">
+										<ui:param name="param" value="#{otab.param}" />
+									</c:if>
+								</ui:include>
+							</f:subview>
+						</p:scrollPanel>
+					</p:tab>
+				</c:forEach>
+
+				<!-- 				<p:tab title="Test" style="font-size: 15px"> -->
+				<!-- 					<p:scrollPanel mode="native" styleClass="scrollPanels"> -->
+				<!-- 						<ui:include src="/WEB-INF/secure/include1.xhtml" /> -->
+				<!-- 					</p:scrollPanel> -->
+				<!-- 				</p:tab> -->
+
+			</p:tabView>
+		</p:layoutUnit>
+	</p:layout>
+
+</body>
+</html>

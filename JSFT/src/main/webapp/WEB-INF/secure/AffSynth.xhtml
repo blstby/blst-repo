@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="formAffSynth">
+		<p:dataTable value="#{affSynthView.lstA.get(param)}" var="affaire"
+			paginator="true" rows="15">
+
+			<f:facet name="footer">
+				<p:commandButton value="Imprimer" update="tabss" icon="fa fa-print" />
+			</f:facet>
+
+			<p:column id="id" headerText="ID" style="text-align:center">
+				<h:outputText value="#{affaire.idAffaire}" />
+			</p:column>
+
+			<p:column id="nDoss" headerText="N° Dossier"
+				style="text-align:center">
+				<h:outputText value="#{affaire.dossier}" />
+			</p:column>
+
+			<p:column id="dateCr" headerText="Date de création"
+				style="text-align:center">
+				<h:outputText
+					value="#{affSynthView.getDateFromJulian(affaire.dateCreation)}" />
+			</p:column>
+
+			<p:column id="statut" headerText="Statut" style="text-align:center">
+				<h:outputText value="#{affaire.codeStatut}" />
+			</p:column>
+
+			<p:column id="TypeProd" headerText="Type produit"
+				style="text-align:center">
+				<h:outputText value="#{affaire.codeProduit}" />
+			</p:column>
+
+			<p:column id="role" headerText="Role(s)" style="text-align:center">
+				<h:outputLabel value="#{affSynthView.getTypeTiers(affSynthView.tiers.get(param),affaire.idAffaire)}" />
+			</p:column>
+
+			<p:column style="text-align:center" >
+				<p:commandButton action="#{affSynthView.afficherAff(affaire)}"
+					icon="ui-icon-search" title="Afficher synthèse" update="tabss">
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+</ui:composition>

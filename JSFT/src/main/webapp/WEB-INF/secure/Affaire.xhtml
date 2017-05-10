@@ -1,0 +1,21 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+		<h:form id="formAff">
+
+		<p:panel header="Details Affaire" toggleable="true"
+			toggleSpeed="500">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Type :" />
+				<h:outputLabel value="#{affaireView.affaires.get(param).code_produit}" />
+				<h:outputLabel value="Montant :" />
+				<h:outputLabel value="#{affaireView.affaires.get(param).montant_fin}" />
+				<h:outputLabel value="Tier :" />
+				<h:outputLabel value="#{affaireView.affaires.get(param).tier.nom}" />
+			</h:panelGrid>
+		</p:panel>
+
+	</h:form>
+</ui:composition>
