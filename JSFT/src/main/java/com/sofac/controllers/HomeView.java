@@ -52,7 +52,7 @@ public class HomeView {
 	}
 
 	public void showMessage() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Hello", "I am a message in a dialog");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Hello", "include " + (FacesContext.getCurrentInstance().getViewRoot().getViewMap().containsKey("includeView")));
 		RequestContext.getCurrentInstance().showMessageInDialog(message);
 	}
 

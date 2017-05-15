@@ -9,7 +9,7 @@
 	<title>Login</title>
 	<h:outputStylesheet name="css/login.css" />
 </h:head>
-<body>
+<h:body id="page">
 	<div id="box">
 		<p:growl id="growl" showDetail="true" autoUpdate="true" />
 		<div id="loginbox">
@@ -17,15 +17,22 @@
 				<h:panelGrid columns="4" cellpadding="5">
 					<h:outputLabel value="Login :" style="font-weight:bold" />
 					<p:inputText id="login" value="#{loginView.utilisateur.login}"
-						required="true" requiredMessage="Veuiller saisir un login"/>
+						required="true" requiredMessage="Veuiller saisir un login" />
 					<h:outputLabel value="Password :" style="font-weight:bold" />
 					<p:password id="password" value="#{loginView.utilisateur.mdp}"
-						required="true" requiredMessage="Veuiller saisir votre mot de passe"/>
-					<p:commandButton value="Connexion" action="#{loginView.connect()}"
+						required="true"
+						requiredMessage="Veuiller saisir votre mot de passe" />
+					<p:commandButton id="connex" value="Connexion" action="#{loginView.connect()}"
 						icon="ui-icon-check" style="font-size: 15px" />
+
+					<p:blockUI block=":page"
+						trigger="form:connex">
+        Connexion en cours<br />
+						<p:graphicImage name="images/ajax-loader.gif" />
+					</p:blockUI>
 				</h:panelGrid>
 			</h:form>
 		</div>
 	</div>
-</body>
+</h:body>
 </html>

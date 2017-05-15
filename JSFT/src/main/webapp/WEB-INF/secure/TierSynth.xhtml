@@ -32,13 +32,6 @@
 					value="#{tierSynthView.getCodiff(tierSynthView.openedTiersInfo.get(param).tiers.codeActivite,'SECT')}" />
 
 			</h:panelGrid>
-			<f:facet name="actions">
-				<p:commandLink
-					styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
-					action="#{tierSynthView.test()}" update="tabss">
-					<h:outputText styleClass="ui-icon fa fa-search-plus" />
-				</p:commandLink>
-			</f:facet>
 		</p:panel>
 
 		<c:if
@@ -53,13 +46,6 @@
 						<h:outputLabel value="#{tieiden.noPieceIden}" />
 					</c:forEach>
 				</h:panelGrid>
-				<f:facet name="actions">
-					<p:commandLink
-						styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
-						action="#{tierSynthView.test()}" update="tabss">
-						<h:outputText styleClass="ui-icon fa fa-search-plus" />
-					</p:commandLink>
-				</f:facet>
 			</p:panel>
 		</c:if>
 

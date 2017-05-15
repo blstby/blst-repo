@@ -36,14 +36,14 @@ public class TiersDao {
 			session.beginTransaction();
 			String query = "select t from Tiers t where 1=1";
 			if (cin != null) {
-				query = " select distinct t from Tiers t, Tieiden i where i.codePieceIden = 'BI' and i.noPieceIden = '"
-						+ cin + "'";
+				query = " select distinct t from Tiers t, Tieiden i where t.tiers = i.tiers and i.codePieceIden = 'BI' and i.noPieceIden like '"
+						+ cin + "%'";
 			}
 			if (code != null) {
 				query += " and t.tiers = '" + code + "'";
 			}
 			if (rc != null) {
-				query += " and t.no_rc = '" + rc + "'";
+				query += " and t.no_rc like '" + rc + "%'";
 			}
 			if (nom != null) {
 				query += " and concat(t.nom, t.prenom) like '%" + nom + "%'";

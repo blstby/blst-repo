@@ -16,7 +16,5 @@
 		<mapping class="com.sofac.model.Menu" />
 		<mapping class="com.sofac.model.Module" />
 		<mapping class="com.sofac.model.Profile" />
-		<mapping class="com.sofac.model.Affaire" />
-		<mapping class="com.sofac.model.Tiers" />
 	</session-factory>
 </hibernate-configuration>

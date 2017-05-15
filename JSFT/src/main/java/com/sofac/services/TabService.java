@@ -64,19 +64,23 @@ public class TabService {
 				cont = list.get(i).getController();
 				list.remove(i);
 			}
-		}
-		if (testTab(list, title, "Antécédents", "-")) {
+		}		
+		if (testTab(list, title, "Antécédents", "-", "antecedentView")) {
 			FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove("tierSynthView");
-		}else if(testTab(list, title, "-", "+")){
+			System.out.println("=========== tierSynthView detruit");
+		} else if (testTab(list, title, "-", "+", "tierSynthView")) {
 			FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove("affSynthView");
-		}else if(testTab(list, title, "+", "_")){
+			System.out.println("=========== affSynthView detruit");
+		} else if (testTab(list, title, "+", "_", "affSynthView")) {
 			FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove("affaireView");
+			System.out.println("=========== affaireView detruit");
 		}
 		FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove(cont);
+		System.out.println("=========== " + cont + " detruit");
 		return list;
 	}
 
-	private boolean testTab(List<Tab> list, String title, String aTester, String mark) {
+	private boolean testTab(List<Tab> list, String title, String aTester, String mark, String cont) {
 		boolean test = true;
 		boolean t = true;
 		if (title.startsWith(mark)) {
@@ -84,7 +88,7 @@ public class TabService {
 				if (list.get(i).getTitle().startsWith(mark)) {
 					test = false;
 				}
-				if (list.get(i).getTitle().startsWith(aTester)) {
+				if (list.get(i).getTitle().startsWith(aTester) || FacesContext.getCurrentInstance().getViewRoot().getViewMap().containsKey(cont)) {
 					t = false;
 				}
 			}
@@ -121,6 +125,12 @@ public class TabService {
 		}
 		return -1;
 	}
+
+//	@SuppressWarnings("unchecked")
+//	public static <T> T findBean(String beanName) {
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
+//	}
 
 	public String trim(String str) {
 		if (str.length() > 19) {
