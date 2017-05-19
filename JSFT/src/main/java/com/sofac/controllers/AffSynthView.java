@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import com.sofac.model.AffaireInfo;
 import com.sofac.models.Affaire;
 import com.sofac.services.AffaireService;
 import com.sofac.services.TiersService;
@@ -17,7 +18,7 @@ import com.sofac.util.Tab;
 @ViewScoped
 public class AffSynthView {
 
-	private ArrayList<ArrayList<Affaire>> lstA;
+	private ArrayList<ArrayList<AffaireInfo>> lstA;
 	private ArrayList<String> tiers;
 	@ManagedProperty("#{affaireView}")
 	private AffaireView affV;
@@ -50,6 +51,14 @@ public class AffSynthView {
 //		}
 //		home.addTab("_Affaire " + affaire.getId());
 	}
+	
+	public double solde(Long id, String tier){
+		return affaireService.soldeAffTiers(id, tier);
+	}
+	
+	public double enCours(Long id){
+		return affaireService.encoursAff(id);
+	}
 
 	public String getDateFromJulian(Long date) throws ParseException{
 		return tiersService.getDateFromJulian(date);
@@ -75,11 +84,11 @@ public class AffSynthView {
 		this.home = home;
 	}
 
-	public ArrayList<ArrayList<Affaire>> getLstA() {
+	public ArrayList<ArrayList<AffaireInfo>> getLstA() {
 		return lstA;
 	}
 
-	public void setLstA(ArrayList<ArrayList<Affaire>> lstA) {
+	public void setLstA(ArrayList<ArrayList<AffaireInfo>> lstA) {
 		this.lstA = lstA;
 	}
 

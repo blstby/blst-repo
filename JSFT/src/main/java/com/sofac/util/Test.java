@@ -67,8 +67,8 @@ public class Test {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		System.out.println("*************start*************");
-//		Session session = HibernateUtil.getOracleSessionFactory().openSession();
-//		session.beginTransaction();
+		Session session = HibernateUtil.getOracleSessionFactory().openSession();
+		session.beginTransaction();
 //		String sql = "select code, libelle, typ_code as type from LIB_ACODIFS la where la.typ_code = 'PAYS' and la.code_langue = '1' and la.code_statut = '2'";
 //		SQLQuery query = session.createSQLQuery(sql);
 //		query.addScalar("code");
@@ -86,24 +86,27 @@ public class Test {
 //		for(int i = 0; i < lst.size(); i++){
 //			System.out.println(lst.get(i).getNom() + lst.get(i).getPrenom());
 //		}
-//		session.doWork(new Work() {
-//			  public void execute(Connection connection) throws SQLException {
-//			    CallableStatement call = connection.prepareCall("{ ? = call ops$ingenetudes.db_cal_crd_affaire_arrete(?,?) }");
-//			    call.registerOutParameter( 1, OracleTypes.VARCHAR );
-//			    call.setNString(2, "27464391");
-////			    call.setNString(3, "CL00213672");
+		session.doWork(new Work() {
+			  public void execute(Connection connection) throws SQLException {
+			    CallableStatement call = connection.prepareCall("{ ? = call PKG_UTIL_MONT_1SFC.CALC_MNT_PRET_AFF (?) }");
+			    call.registerOutParameter( 1, OracleTypes.NUMBER );
+			    call.setNString(2, "78349230");
+//			    call.setNString(3, "CL00213672");
 //			    call.setNString(3, new SimpleDateFormat("Myydd").format(new Date()));
-//			    call.execute();
-//			    String result = call.getString(1);
-//			    System.out.println("--- " + Double.parseDouble(result) + " ---");
+			    call.execute();
+			    double res =  call.getDouble(1);
+//			    Date result = call.getDate(1);
+//			    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+//			    System.out.println("--- " + format.format(result) + " ---");
+			    System.out.println("---" + res + "---");
 //			    if(Double.parseDouble(result) <= 0){
 //			    	System.out.println("wa3");
 //			    }
-//			  }
-//			});
-//		session.close();
-		System.out.println(new SimpleDateFormat("Myydd").format(new Date()));
-		System.out.println(Double.parseDouble("26183,08".replace(",",".")));
+			  }
+			});
+		session.close();
+//		System.out.println(new SimpleDateFormat("Myydd").format(new Date()));
+//		System.out.println(Double.parseDouble("26183,08".replace(",",".")));
 		System.out.println("*************finish*************");
 	}
 }

@@ -9,14 +9,13 @@ import com.sofac.models.Tiers;
 
 public class TiersInfo {
 	
-	private com.sofac.models.Tiers tiers;
+	private Tiers tiers;
 	private List<Refcomm> refcomms;
 	private List<Tieiden> tieidens;
 	private Empltiers empltiers;
 	private String rib;
 	private String adresse;
 	private String[] situation;
-
 	
 	public TiersInfo(Tiers tiers, List<Tieiden> tieidens, String adresse) {
 		super();
@@ -36,11 +35,11 @@ public class TiersInfo {
 		this.empltiers = empltiers;
 	}
 
-	public com.sofac.models.Tiers getTiers() {
+	public Tiers getTiers() {
 		return tiers;
 	}
 
-	public void setTiers(com.sofac.models.Tiers tiers) {
+	public void setTiers(Tiers tiers) {
 		this.tiers = tiers;
 	}
 

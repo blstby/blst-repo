@@ -9,29 +9,38 @@
 		<p:panel header="Renseignements Client" toggleable="true"
 			toggleSpeed="500">
 			<h:panelGrid columns="2">
-				<h:outputLabel value="Nom complet :" />
+
+				<h:outputLabel value="Nom complet :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.openedTiersInfo.get(param).tiers.codeQualite}#{' '}#{tierSynthView.openedTiersInfo.get(param).tiers.nom}#{' '}#{tierSynthView.openedTiersInfo.get(param).tiers.prenom}" />
-				<h:outputLabel value="Date de naissance :" />
+				<h:outputLabel value="Date de naissance :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.getDateFromJulian(tierSynthView.openedTiersInfo.get(param).tiers.dateNaissance)}" />
-				<h:outputLabel value="Nationalité :" />
+				<h:outputLabel value="Nationalité :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.getCodiff(tierSynthView.openedTiersInfo.get(param).tiers.codeNationalite,'PAYS')}" />
-				<h:outputLabel value="Situation familiale :" />
+				<h:outputLabel value="Situation familiale :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.openedTiersInfo.get(param).tiers.codeRegMatri}" />
-				<h:outputLabel value="Adresse :" />
+				<h:outputLabel value="Adresse :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.openedTiersInfo.get(param).adresse}" />
-				<h:outputLabel value="Profession :" />
+				<h:outputLabel value="Profession :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.getCodiff(tierSynthView.openedTiersInfo.get(param).tiers.codeProfession,'CPRO')}" />
-				<h:outputLabel value="Secteur d'activité :" />
+				<h:outputLabel value="Secteur d'activité :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.getCodiff(tierSynthView.openedTiersInfo.get(param).tiers.codeActivite,'SECT')}" />
 
 			</h:panelGrid>
+
+			<f:facet name="actions">
+				<p:commandLink id="impr"
+					styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+					update="tabss" title="Imprimer synthèse du tier">
+					<h:outputText styleClass="ui-icon fa fa-print"/>
+				</p:commandLink>
+			</f:facet>
 		</p:panel>
 
 		<c:if
@@ -42,7 +51,7 @@
 						items="#{tierSynthView.openedTiersInfo.get(param).tieidens}"
 						var="tieiden">
 						<h:outputLabel
-							value="#{tierSynthView.getLibId(tieiden.codePieceIden)}#{' :'}" />
+							value="#{tierSynthView.getLibId(tieiden.codePieceIden)}#{' :'}" styleClass="text"/>
 						<h:outputLabel value="#{tieiden.noPieceIden}" />
 					</c:forEach>
 				</h:panelGrid>
@@ -57,7 +66,7 @@
 						items="#{tierSynthView.openedTiersInfo.get(param).refcomms}"
 						var="refcomm">
 						<h:outputLabel
-							value="#{tierSynthView.getCodiff(refcomm.id.codeReference,'CREF')}#{' :'}" />
+							value="#{tierSynthView.getCodiff(refcomm.id.codeReference,'CREF')}#{' :'}" styleClass="text"/>
 						<h:outputLabel value="#{refcomm.telephone}" />
 					</c:forEach>
 				</h:panelGrid>
@@ -71,37 +80,37 @@
 				<h:panelGrid columns="2">
 					<c:if
 						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.id.raisonSociale != null}">
-						<h:outputLabel value="Raison sociale :" />
+						<h:outputLabel value="Raison sociale :" styleClass="text"/>
 						<h:outputLabel
 							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.id.raisonSociale}" />
 					</c:if>
 					<c:if
 						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse1 != null}">
-						<h:outputLabel value="Adresse :" />
+						<h:outputLabel value="Adresse :" styleClass="text"/>
 						<h:outputLabel
 							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse1}" />
 					</c:if>
 					<c:if
 						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse2 != null}">
-						<h:outputLabel value=" " />
+						<h:outputLabel value=" " styleClass="text"/>
 						<h:outputLabel
 							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.adresse2}" />
 					</c:if>
 					<c:if
 						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.codePostal != null}">
-						<h:outputLabel value="Code postal :" />
+						<h:outputLabel value="Code postal :" styleClass="text"/>
 						<h:outputLabel
 							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.codePostal}" />
 					</c:if>
 					<c:if
 						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.ville != null}">
-						<h:outputLabel value="Ville :" />
+						<h:outputLabel value="Ville :" styleClass="text"/>
 						<h:outputLabel
 							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.ville}" />
 					</c:if>
 					<c:if
 						test="#{tierSynthView.openedTiersInfo.get(param).empltiers.telephone != null}">
-						<h:outputLabel value="Télephone :" />
+						<h:outputLabel value="Télephone :" styleClass="text"/>
 						<h:outputLabel
 							value="#{tierSynthView.openedTiersInfo.get(param).empltiers.telephone}" />
 					</c:if>
@@ -113,16 +122,16 @@
 			<p:panel header="Domiciliation principale" toggleable="true"
 				toggleSpeed="500">
 				<h:panelGrid columns="2">
-					<h:outputLabel value="Banque :" />
+					<h:outputLabel value="Banque :" styleClass="text"/>
 					<h:outputLabel
 						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[0]}" />
-					<h:outputLabel value="Agence :" />
+					<h:outputLabel value="Agence :" styleClass="text"/>
 					<h:outputLabel
 						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[1]}" />
-					<h:outputLabel value="Compte :" />
+					<h:outputLabel value="Compte :" styleClass="text"/>
 					<h:outputLabel
 						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[2]}" />
-					<h:outputLabel value="Clé :" />
+					<h:outputLabel value="Clé :" styleClass="text"/>
 					<h:outputLabel
 						value="#{tierSynthView.openedTiersInfo.get(param).rib.split('-')[3]}" />
 				</h:panelGrid>
@@ -132,19 +141,19 @@
 		<p:panel header="Synthèse des affaires" toggleable="true"
 			toggleSpeed="500">
 			<h:panelGrid columns="2">
-				<h:outputLabel value="Nombre total des affaires :" />
+				<h:outputLabel value="Nombre total des affaires :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.nbAffaire(tierSynthView.openedTiersInfo.get(param).tiers.tiers)}" />
-				<h:outputLabel value="Total encours des affaires :" />
+				<h:outputLabel value="Total encours des affaires :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.openedTiersInfo.get(param).situation[0]}" />
-				<h:outputLabel value="Nombre d'affaire en cours :" />
+				<h:outputLabel value="Nombre d'affaire en cours :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.openedTiersInfo.get(param).situation[1]}" />
-				<h:outputLabel value="Total solde des affaires :" />
+				<h:outputLabel value="Total solde des affaires :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.openedTiersInfo.get(param).situation[2]}" />
-				<h:outputLabel value="Autres affaire :" />
+				<h:outputLabel value="Autres affaire :" styleClass="text"/>
 				<h:outputLabel
 					value="#{tierSynthView.openedTiersInfo.get(param).situation[3]}" />
 			</h:panelGrid>

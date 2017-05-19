@@ -6,41 +6,75 @@
 
 	<h:form id="formAffSynth">
 		<p:dataTable value="#{affSynthView.lstA.get(param)}" var="affaire"
-			paginator="true" rows="15">
+			paginator="true" rows="15" tableStyle="table-layout:auto" style="font-size: 13px">
 
 			<f:facet name="footer">
 				<p:commandButton value="Imprimer" update="tabss" icon="fa fa-print" />
 			</f:facet>
 
-			<p:column id="id" headerText="ID" style="text-align:center">
-				<h:outputText value="#{affaire.idAffaire}" />
+			<p:column id="nDoss" headerText="Lieu d'affaire"
+				style="text-align:center">
+				<h:outputText value="#{affaire.affaire.dossier}" />
 			</p:column>
 
-			<p:column id="nDoss" headerText="N° Dossier"
-				style="text-align:center">
-				<h:outputText value="#{affaire.dossier}" />
+			<p:column id="id" headerText="ID" style="text-align:center">
+				<h:outputText value="#{affaire.affaire.idAffaire}" />
+			</p:column>
+
+			<p:column id="CatProd" headerText="Cat aff" style="text-align:center">
+				<h:outputText value="#{affaire.affaire.codeCategorieAffaire}" />
+			</p:column>
+			
+			<p:column id="crReal" headerText="Cr. Réalisé" style="text-align:center">
+				<h:outputText value="#{affaire.crRealise}" />
+			</p:column>
+
+			<p:column id="Duree" headerText="Durée" style="text-align:center">
+				<h:outputText value="#{affaire.duree}" />
+			</p:column>
+			
+			<p:column id="montEch" headerText="MT. Ech" style="text-align:center">
+				<h:outputText value="#{affaire.montantEch}" />
+			</p:column>
+			
+			<p:column id="PrEch" headerText="Première Ech" style="text-align:center">
+				<h:outputText value="#{affaire.datePremEch}" />
+			</p:column>
+			
+			<p:column id="DeEch" headerText="Dernière Ech" style="text-align:center">
+				<h:outputText value="#{affaire.dateDernEch}" />
 			</p:column>
 
 			<p:column id="dateCr" headerText="Date de création"
 				style="text-align:center">
 				<h:outputText
-					value="#{affSynthView.getDateFromJulian(affaire.dateCreation)}" />
+					value="#{affSynthView.getDateFromJulian(affaire.affaire.dateCreation)}" />
 			</p:column>
 
 			<p:column id="statut" headerText="Statut" style="text-align:center">
-				<h:outputText value="#{affaire.codeStatut}" />
+				<h:outputText value="#{affaire.affaire.codeStatut}" />
 			</p:column>
 
-			<p:column id="TypeProd" headerText="Type produit"
+			<p:column id="statutImp" headerText="Statut imposé"
 				style="text-align:center">
-				<h:outputText value="#{affaire.codeProduit}" />
+				<h:outputText value="#{affaire.affaire.codeStatutImpose}" />
+			</p:column>
+
+			<p:column id="solde" headerText="Solde" style="text-align:center">
+				<h:outputText
+					value="#{affSynthView.solde(affaire.affaire.idAffaire,affaire.affaire.tiersClient)}" />
+			</p:column>
+
+			<p:column id="crd" headerText="CRD" style="align-text:center">
+				<h:outputText value="#{affSynthView.enCours(affaire.affaire.idAffaire)}" />
 			</p:column>
 
 			<p:column id="role" headerText="Role(s)" style="text-align:center">
-				<h:outputLabel value="#{affSynthView.getTypeTiers(affSynthView.tiers.get(param),affaire.idAffaire)}" />
+				<h:outputLabel
+					value="#{affSynthView.getTypeTiers(affSynthView.tiers.get(param),affaire.affaire.idAffaire)}" />
 			</p:column>
 
-			<p:column style="text-align:center" >
+			<p:column style="text-align:center">
 				<p:commandButton action="#{affSynthView.afficherAff(affaire)}"
 					icon="ui-icon-search" title="Afficher synthèse" update="tabss">
 				</p:commandButton>

@@ -11,8 +11,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.sofac.model.AffaireInfo;
 import com.sofac.model.TiersInfo;
-import com.sofac.models.Affaire;
 import com.sofac.services.AffaireService;
 import com.sofac.services.TieidenService;
 import com.sofac.services.TiersService;
@@ -60,7 +60,7 @@ public class TierSynthView {
 	}
 
 	public void afficherAff(String tier) {
-		ArrayList<Affaire> aff = affaireService.getByTiers(tier);
+		ArrayList<AffaireInfo> aff = affaireService.getByTiers(tier);
 		if (affSynth.getLstA().indexOf(aff) == -1) {
 			affSynth.getTiers().add(tier);
 			affSynth.getLstA().add(aff);

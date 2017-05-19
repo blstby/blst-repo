@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 	<h:form id="tierRecherche">
-		<h:panelGrid columns="11">
+		<h:panelGrid columns="12">
 			<h:outputLabel value="Code :" />
 			<p:inputText value="#{antecedentView.code}" style="width:10vw;" />
 
@@ -24,6 +24,12 @@
 			<p:commandButton id="rech" value="Rechercher"
 				action="#{antecedentView.recherche()}" icon="fa fa-search"
 				update="tabss:subview_antecedentView:formTier" />
+
+			<p:commandButton id="clear" icon="fa fa-refresh"
+				title="Réinitialiser la recherche"
+				action="#{antecedentView.clear()}"
+				update="tabss:subview_antecedentView:tierRecherche tabss:subview_antecedentView:formTier" />
+
 		</h:panelGrid>
 
 		<p:blockUI block="tabss"
@@ -33,12 +39,13 @@
 		</p:blockUI>
 	</h:form>
 
-	<h:form id="formTier">
+	<h:form id="formTier" target="_blank">
 		<p:dataTable id="tierT" value="#{antecedentView.tiersInfos}"
-			var="tier" paginator="true" rows="13">
+			var="tier" paginator="true" rows="13" tableStyle="table-layout:auto">
 
 			<f:facet name="footer">
-				<p:commandButton value="Imprimer" update="tabss" icon="fa fa-print" />
+				<p:commandButton action="#{antecedentView.generateRapport()}"
+					value="Imprimer" ajax="false" icon="fa fa-print" />
 			</f:facet>
 
 			<p:column id="code" headerText="Code" style="text-align:center">
@@ -71,15 +78,13 @@
 						target="#{antecedentView.selectedTiersInfo}" />
 				</p:commandButton>
 
-				<p:blockUI block="tabss"
-					trigger="aff">
+				<p:blockUI block="tabss" trigger="aff">
         Chargement du tier en cours<br />
 					<p:graphicImage name="images/ajax-loader.gif" />
 				</p:blockUI>
 			</p:column>
 
 		</p:dataTable>
-
 
 	</h:form>
 

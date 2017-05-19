@@ -1,5 +1,6 @@
 package com.sofac.controllers;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,10 @@ import com.sofac.models.Tieiden;
 import com.sofac.services.AffaireService;
 import com.sofac.services.TieidenService;
 import com.sofac.services.TiersService;
+import com.sofac.util.ReportGenerator;
 import com.sofac.util.Tab;
+
+import net.sf.jasperreports.engine.JRException;
 
 @ManagedBean
 @ViewScoped
@@ -36,6 +40,7 @@ public class AntecedentView {
 	private HomeView home;
 	@ManagedProperty("#{tierSynthView}")
 	private TierSynthView tSynth;
+	private ReportGenerator reportGen;
 
 	@PostConstruct
 	public void init() {
@@ -44,13 +49,28 @@ public class AntecedentView {
 		tieidenService = new TieidenService();
 		affaireService = new AffaireService();
 		tiersInfos = new ArrayList<>();
+		reportGen = new ReportGenerator();
 	}
-	
-	public Tieiden getCIN(List<Tieiden> lst){
+
+	public void generateRapport() throws JRException, ParseException, IOException {
+		reportGen.rapportAntecedent(tiersInfos, code, nom, rc, cin, cinN,
+				home.getLoginView().getUtilisateur().getLogin());
+	}
+
+	public void clear() {
+		tiersInfos = new ArrayList<>();
+		code = "";
+		cin = "";
+		cinN = "";
+		rc = "";
+		nom = "";
+	}
+
+	public Tieiden getCIN(List<Tieiden> lst) {
 		return tieidenService.getCIN(lst);
 	}
-	
-	public String getDateFromJulian(Long date) throws ParseException{
+
+	public String getDateFromJulian(Long date) throws ParseException {
 		return tiersService.getDateFromJulian(date);
 	}
 
@@ -62,24 +82,23 @@ public class AntecedentView {
 	public void afficherTier() {
 		if (tSynth.getOpenedTiersInfo().indexOf(selectedTiersInfo) == -1) {
 			selectedTiersInfo = tiersService.explorer(selectedTiersInfo);
-			selectedTiersInfo.setSituation(affaireService.SituationTier(selectedTiersInfo.getTiers().getTiers()));
+			selectedTiersInfo.setSituation(affaireService.situationTier(selectedTiersInfo.getTiers().getTiers()));
 			tSynth.getOpenedTiersInfo().add(selectedTiersInfo);
-			for(int i = 0; i < home.getTabs().size(); i++){
-				if(home.getTabs().get(i).getTitle().equals("-Tier " + selectedTiersInfo.getTiers().getTiers())){
+			for (int i = 0; i < home.getTabs().size(); i++) {
+				if (home.getTabs().get(i).getTitle().equals("-Tier " + selectedTiersInfo.getTiers().getTiers())) {
 					home.getTabs().remove(i);
 				}
 			}
 			Tab tab = new Tab("-Tier " + selectedTiersInfo.getTiers().getTiers(), "/WEB-INF/secure/TierSynth.xhtml",
 					"_" + selectedTiersInfo.getTiers().getTiers());
 			tab.setOpen(false);
-			tab.setParam(tSynth.getOpenedTiersInfo().size() - 1	);
+			tab.setParam(tSynth.getOpenedTiersInfo().size() - 1);
 			home.getTabs().add(tab);
 		}
 		home.addTab("-Tier " + selectedTiersInfo.getTiers().getTiers());
 	}
 
 	public void recherche() {
-//		System.out.println(" qwert : " + cinN);
 		tiersInfos = tiersService.recherche(code, cin, cinN, rc, nom);
 	}
 

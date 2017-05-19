@@ -9,9 +9,9 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 <h:head>
 	<title>--Home--</title>
-	<h:outputStylesheet name="css/global.css" />
 </h:head>
-<body>
+<h:body>
+	<h:outputStylesheet name="css/global.css" />
 	<p:growl id="growl" showDetail="true" autoUpdate="true" />
 	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
 		style="font-size: 15px" widgetVar="conf">
@@ -22,10 +22,12 @@
 	</p:confirmDialog>
 	<p:layout id="global-layout" styleClass="overflowless">
 		<p:layoutUnit id="north-layout" position="north" resizable="false"
-			style="height:5%;width:100%">
-
+			style="height:10vh;width:100%">
+			
+			<p:graphicImage name="images/Sofac_logo.png" height="100%" width="16%" />
+			
 			<h:form style="float:right">
-				<p:commandButton value="Déconnecter" icon="fa fa-arrow-circle-left"
+				<p:commandButton id="disconnect" value="Déconnecter" icon="fa fa-arrow-circle-left"
 					style="float:right;font-size: 15px;" action="#{loginView.logOut()}">
 					<p:confirm header="Déconnexion" message="Etes-vous sure?"
 						icon="ui-icon-alert" />
@@ -79,5 +81,5 @@
 		</p:layoutUnit>
 	</p:layout>
 
-</body>
+</h:body>
 </html>

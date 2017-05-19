@@ -19,6 +19,7 @@ import oracle.jdbc.internal.OracleTypes;
 public class AffaireDao {
 
 	private String str;
+	private double dbl;
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Affaire> getByTiers(String tiers) throws HibernateException {
@@ -72,7 +73,7 @@ public class AffaireDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String[] SituationTier(String tier) throws HibernateException {
+	public String[] situationTier(String tier) throws HibernateException {
 		try {
 			Session session = HibernateUtil.getOracleSessionFactory().openSession();
 			session.beginTransaction();
@@ -83,14 +84,14 @@ public class AffaireDao {
 			ArrayList<Long> lstT = (ArrayList<Long>) session
 					.createQuery("select a.idAffaire from Affaire a where a.tiersClient = '" + tier + "'").list();
 			for (int i = 0; i < lstT.size(); i++) {
-				double temp = EncoursAff(lstT.get(i));
+				double temp = encoursAff(lstT.get(i));
 				if (temp > 0) {
 					cEnC++;
 					enC += temp;
-				}else{
+				} else {
 					cEch++;
 				}
-				temp = SoldeAffTiers(lstT.get(i), tier);
+				temp = soldeAffTiers(lstT.get(i), tier);
 				solde += temp;
 			}
 			return new String[] { Double.toString(enC), Integer.toString(cEnC), Double.toString(solde),
@@ -100,7 +101,7 @@ public class AffaireDao {
 		}
 	}
 
-	public Double EncoursAff(long id) throws HibernateException {
+	public Double encoursAff(long id) throws HibernateException {
 		try {
 			Session session = HibernateUtil.getOracleSessionFactory().openSession();
 			session.beginTransaction();
@@ -116,13 +117,13 @@ public class AffaireDao {
 				}
 			});
 			session.close();
-			return Double.parseDouble(str.replace(",","."));
+			return Double.parseDouble(str.replace(",", "."));
 		} catch (HibernateException e) {
 			return null;
 		}
 	}
 
-	public Double SoldeAffTiers(long id, String tier) throws HibernateException {
+	public Double soldeAffTiers(long id, String tier) throws HibernateException {
 		try {
 			Session session = HibernateUtil.getOracleSessionFactory().openSession();
 			session.beginTransaction();
@@ -139,9 +140,121 @@ public class AffaireDao {
 				}
 			});
 			session.close();
-			return Double.parseDouble(str.replace(",","."));
+			return Double.parseDouble(str.replace(",", "."));
 		} catch (HibernateException e) {
 			return null;
+		}
+	}
+
+	public String dureeAff(long id) throws HibernateException {
+		try {
+			Session session = HibernateUtil.getOracleSessionFactory().openSession();
+			session.beginTransaction();
+			session.doWork(new Work() {
+				public void execute(Connection connection) throws SQLException {
+					CallableStatement call = connection.prepareCall("{ ? = call DB_EKC_DUREE_AFF_0FIN (?) }");
+					call.registerOutParameter(1, OracleTypes.NUMBER);
+					call.setNString(2, "" + id);
+					call.execute();
+					str = call.getInt(1) + "";
+				}
+			});
+			session.close();
+			return str;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
+
+	public double montantEch(long id) throws HibernateException {
+		try {
+			Session session = HibernateUtil.getOracleSessionFactory().openSession();
+			session.beginTransaction();
+			session.doWork(new Work() {
+				public void execute(Connection connection) throws SQLException {
+					CallableStatement call = connection
+							.prepareCall("{ ? = call PKG_UTIL_MONT_1SFC.CALC_MNT_ECHEANCE_AFF  (?) }");
+					call.registerOutParameter(1, OracleTypes.NUMBER);
+					call.setNString(2, "" + id);
+					call.execute();
+					dbl = call.getDouble(1);
+				}
+			});
+			session.close();
+			return dbl;
+		} catch (HibernateException e) {
+			return -9001;
+		}
+	}
+
+	public String datePremEch(long id) throws HibernateException {
+		try {
+			Session session = HibernateUtil.getOracleSessionFactory().openSession();
+			session.beginTransaction();
+			session.doWork(new Work() {
+				public void execute(Connection connection) throws SQLException {
+					CallableStatement call = connection.prepareCall("{ ? = call DB_EKC_DATE_DEB_AFF_0FIN (?) }");
+					call.registerOutParameter(1, OracleTypes.DATE);
+					call.setNString(2, "" + id);
+					call.execute();
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					Date d = call.getDate(1);
+					if (d != null)
+						str = format.format(d);
+					else
+						str = "N/A";
+				}
+			});
+			session.close();
+			return str;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
+
+	public String dateDernEch(long id) throws HibernateException {
+		try {
+			Session session = HibernateUtil.getOracleSessionFactory().openSession();
+			session.beginTransaction();
+			session.doWork(new Work() {
+				public void execute(Connection connection) throws SQLException {
+					CallableStatement call = connection.prepareCall("{ ? = call DB_EKC_DATE_FIN_AFF_0FIN (?) }");
+					call.registerOutParameter(1, OracleTypes.DATE);
+					call.setNString(2, "" + id);
+					call.execute();
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					Date d = call.getDate(1);
+					if (d != null)
+						str = format.format(d);
+					else
+						str = "N/A";
+				}
+			});
+			session.close();
+			return str;
+		} catch (HibernateException e) {
+			return null;
+		}
+	}
+	
+	public double crRealise(long id) throws HibernateException {
+		try {
+			Session session = HibernateUtil.getOracleSessionFactory().openSession();
+			session.beginTransaction();
+			session.doWork(new Work() {
+				public void execute(Connection connection) throws SQLException {
+					CallableStatement call = connection
+							.prepareCall("{ ? = call PKG_UTIL_MONT_1SFC.CALC_MNT_PRET_AFF (?) }");
+					call.registerOutParameter(1, OracleTypes.NUMBER);
+					call.setNString(2, "" + id);
+					call.execute();
+					dbl = call.getDouble(1);
+				}
+			});
+			session.close();
+			return dbl;
+		} catch (HibernateException e) {
+			return -9001;
 		}
 	}
 }
